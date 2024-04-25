@@ -2,7 +2,7 @@
 
 ## 简介
 
-本镜像 [`paperplanecc/paperplane-api-base`](https://hub.docker.com/r/paperplanecc/paperplane-api-base) 为项目 `paperplane-api`（[源码](https://git.paperplane.cc/jia-niang/paperplane-api)，[Github](https://github.com/PaperplaneJS/webapi)） 提供预装了各种所需软件的运行环境。
+本镜像 [`paperplanecc/paperplane-api-base`](https://hub.docker.com/r/paperplanecc/paperplane-api-base) 为项目 `paperplane-api`（[源码](https://git.paperplane.cc/jia-niang/paperplane-api)，[Github](https://github.com/jia-niang/paperplane-api)） 提供预装了各种所需软件的运行环境。
 
 点此访问 [源码](https://git.paperplane.cc/p01/paperplane-api-base)。
 
