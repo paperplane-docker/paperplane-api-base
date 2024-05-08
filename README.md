@@ -12,4 +12,4 @@
 
 ## 用法
 
-同 [`node:19`](https://hub.docker.com/_/node) 用法一致。
+同 [`node:20.13.0`](https://hub.docker.com/_/node) 用法一致。
