@@ -7,10 +7,6 @@ workspace:
 environment:
   COMMIT_TAG: ${DRONE_COMMIT_SHA:0:8}
   VERSION_TAG: ${DRONE_SEMVER##v}
-  DOCKER_PASSWORD:
-    from_secret: DOCKER_PASSWORD
-  P01_DOCKER_PASSWORD:
-    from_secret: P01_DOCKER_PASSWORD
 
 steps:
   - name: buildx
@@ -26,6 +22,9 @@ steps:
     volumes:
       - name: dockersock
         path: /var/run/docker.sock
+    environment:
+      DOCKER_PASSWORD:
+        from_secret: DOCKER_PASSWORD
     commands:
       - docker login -u paperplanecc -p $DOCKER_PASSWORD
       - docker tag paperplanecc/paperplane-api-base:ci paperplanecc/paperplane-api-base:$COMMIT_TAG
@@ -43,6 +42,9 @@ steps:
     volumes:
       - name: dockersock
         path: /var/run/docker.sock
+    environment:
+      DOCKER_PASSWORD:
+        from_secret: DOCKER_PASSWORD
     commands:
       - docker login -u paperplanecc -p $DOCKER_PASSWORD
       - docker tag paperplanecc/paperplane-api-base:ci paperplanecc/paperplane-api-base:$VERSION_TAG
@@ -63,6 +65,9 @@ steps:
     volumes:
       - name: dockersock
         path: /var/run/docker.sock
+    environment:
+      P01_DOCKER_PASSWORD:
+        from_secret: P01_DOCKER_PASSWORD
     commands:
       - docker login docker.p01.cc -u p01 -p $P01_DOCKER_PASSWORD
       - docker tag paperplanecc/paperplane-api-base:ci docker.p01.cc/paperplane-api-base:$COMMIT_TAG
@@ -80,6 +85,9 @@ steps:
     volumes:
       - name: dockersock
         path: /var/run/docker.sock
+    environment:
+      P01_DOCKER_PASSWORD:
+        from_secret: P01_DOCKER_PASSWORD
     commands:
       - docker login docker.p01.cc -u p01 -p $P01_DOCKER_PASSWORD
       - docker tag paperplanecc/paperplane-api-base:ci docker.p01.cc/paperplane-api-base:$VERSION_TAG
