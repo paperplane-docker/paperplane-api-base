@@ -72,8 +72,9 @@ steps:
       PUSHRM_TARGET: docker.io/paperplanecc/paperplane-api-base
 
 trigger:
-  event:
-    - tag
+  ref:
+    - refs/heads/master
+    - refs/tags/*
 
 volumes:
   - name: dockersock
