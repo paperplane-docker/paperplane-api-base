@@ -16,6 +16,9 @@ steps:
         - ${DRONE_SEMVER}
         - latest
       registry: docker.p01.cc
+    volumes:
+      - name: dockersock
+        path: /var/run/docker.sock
 
   - name: build-p01-arm64
     image: plugins/docker
@@ -29,6 +32,9 @@ steps:
         - ${DRONE_SEMVER}
         - latest
       registry: docker.p01.cc
+    volumes:
+      - name: dockersock
+        path: /var/run/docker.sock
 
   - name: build-official-amd64
     image: plugins/docker
@@ -40,6 +46,9 @@ steps:
       tags:
         - ${DRONE_SEMVER}
         - latest
+    volumes:
+      - name: dockersock
+        path: /var/run/docker.sock
 
   - name: build-official-arm64
     image: plugins/docker
@@ -52,6 +61,9 @@ steps:
       tags:
         - ${DRONE_SEMVER}
         - latest
+    volumes:
+      - name: dockersock
+        path: /var/run/docker.sock
 
   - name: push-readme-official
     image: chko/docker-pushrm:1
@@ -65,3 +77,8 @@ steps:
 trigger:
   branch:
     - master
+
+volumes:
+  - name: dockersock
+    host:
+      path: /var/run/docker.sock
