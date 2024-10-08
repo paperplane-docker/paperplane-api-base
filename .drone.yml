@@ -4,6 +4,14 @@ name: default
 workspace:
   path: /source
 
+environment:
+  COMMIT_TAG: ${DRONE_COMMIT_SHA:0:8}
+  VERSION_TAG: ${DRONE_SEMVER##v}
+  DOCKER_PASSWORD:
+    from_secret: DOCKER_PASSWORD
+  P01_DOCKER_PASSWORD:
+    from_secret: P01_DOCKER_PASSWORD
+
 steps:
   - name: buildx
     image: docker:dind
@@ -18,16 +26,13 @@ steps:
     volumes:
       - name: dockersock
         path: /var/run/docker.sock
-    environment:
-      DOCKER_PASSWORD:
-        from_secret: DOCKER_PASSWORD
     commands:
       - docker login -u paperplanecc -p $DOCKER_PASSWORD
-      - docker tag paperplanecc/paperplane-api-base:ci paperplanecc/paperplane-api-base:${DRONE_COMMIT_SHA:0:8}
+      - docker tag paperplanecc/paperplane-api-base:ci paperplanecc/paperplane-api-base:$COMMIT_TAG
       - docker tag paperplanecc/paperplane-api-base:ci paperplanecc/paperplane-api-base:latest
-      - docker push paperplanecc/paperplane-api-base:${DRONE_COMMIT_SHA:0:8}
+      - docker push paperplanecc/paperplane-api-base:$COMMIT_TAG
       - docker push paperplanecc/paperplane-api-base:latest
-      - docker rmi paperplanecc/paperplane-api-base:${DRONE_COMMIT_SHA:0:8}
+      - docker rmi paperplanecc/paperplane-api-base:$COMMIT_TAG
       - docker rmi paperplanecc/paperplane-api-base:latest
 
   - name: publish-official-version
@@ -38,14 +43,11 @@ steps:
     volumes:
       - name: dockersock
         path: /var/run/docker.sock
-    environment:
-      DOCKER_PASSWORD:
-        from_secret: DOCKER_PASSWORD
     commands:
       - docker login -u paperplanecc -p $DOCKER_PASSWORD
-      - docker tag paperplanecc/paperplane-api-base:ci paperplanecc/paperplane-api-base:${DRONE_SEMVER##v}
-      - docker push paperplanecc/paperplane-api-base:${DRONE_SEMVER##v}
-      - docker rmi paperplanecc/paperplane-api-base:${DRONE_SEMVER##v}
+      - docker tag paperplanecc/paperplane-api-base:ci paperplanecc/paperplane-api-base:$VERSION_TAG
+      - docker push paperplanecc/paperplane-api-base:$VERSION_TAG
+      - docker rmi paperplanecc/paperplane-api-base:$VERSION_TAG
 
   - name: push-readme-official
     image: chko/docker-pushrm:1
@@ -61,16 +63,13 @@ steps:
     volumes:
       - name: dockersock
         path: /var/run/docker.sock
-    environment:
-      P01_DOCKER_PASSWORD:
-        from_secret: P01_DOCKER_PASSWORD
     commands:
       - docker login docker.p01.cc -u p01 -p $P01_DOCKER_PASSWORD
-      - docker tag paperplanecc/paperplane-api-base:ci docker.p01.cc/paperplane-api-base:${DRONE_COMMIT_SHA:0:8}
+      - docker tag paperplanecc/paperplane-api-base:ci docker.p01.cc/paperplane-api-base:$COMMIT_TAG
       - docker tag paperplanecc/paperplane-api-base:ci docker.p01.cc/paperplane-api-base:latest
-      - docker push docker.p01.cc/paperplane-api-base:${DRONE_COMMIT_SHA:0:8}
+      - docker push docker.p01.cc/paperplane-api-base:$COMMIT_TAG
       - docker push docker.p01.cc/paperplane-api-base:latest
-      - docker rmi docker.p01.cc/paperplane-api-base:${DRONE_COMMIT_SHA:0:8}
+      - docker rmi docker.p01.cc/paperplane-api-base:$COMMIT_TAG
       - docker rmi docker.p01.cc/paperplane-api-base:latest
 
   - name: publish-p01-version
@@ -81,14 +80,11 @@ steps:
     volumes:
       - name: dockersock
         path: /var/run/docker.sock
-    environment:
-      P01_DOCKER_PASSWORD:
-        from_secret: P01_DOCKER_PASSWORD
     commands:
       - docker login docker.p01.cc -u p01 -p $P01_DOCKER_PASSWORD
-      - docker tag paperplanecc/paperplane-api-base:ci docker.p01.cc/paperplane-api-base:${DRONE_SEMVER##v}
-      - docker push docker.p01.cc/paperplane-api-base:${DRONE_SEMVER##v}
-      - docker rmi docker.p01.cc/paperplane-api-base:${DRONE_SEMVER##v}
+      - docker tag paperplanecc/paperplane-api-base:ci docker.p01.cc/paperplane-api-base:$VERSION_TAG
+      - docker push docker.p01.cc/paperplane-api-base:$VERSION_TAG
+      - docker rmi docker.p01.cc/paperplane-api-base:$VERSION_TAG
 
   - name: clean
     image: docker:dind
