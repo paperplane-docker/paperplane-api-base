@@ -20,6 +20,17 @@ steps:
       - name: dockersock
         path: /var/run/docker.sock
 
+  - name: build-official-amd64
+    image: plugins/docker
+    settings:
+      username: paperplanecc
+      password:
+        from_secret: DOCKER_PASSWORD
+      repo: paperplanecc/paperplane-api-base
+      tags:
+        - ${DRONE_SEMVER##v}
+        - latest
+
   - name: build-p01-arm64
     image: plugins/docker
     settings:
@@ -35,17 +46,6 @@ steps:
     volumes:
       - name: dockersock
         path: /var/run/docker.sock
-
-  - name: build-official-amd64
-    image: plugins/docker
-    settings:
-      username: paperplanecc
-      password:
-        from_secret: DOCKER_PASSWORD
-      repo: paperplanecc/paperplane-api-base
-      tags:
-        - ${DRONE_SEMVER##v}
-        - latest
 
   - name: build-official-arm64
     image: plugins/docker
