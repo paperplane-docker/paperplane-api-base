@@ -11,7 +11,7 @@ steps:
       username: p01
       password:
         from_secret: P01_DOCKER_PASSWORD
-      repo: docker.p01.cc/paperplane-api-base
+      repo: paperplane-api-base
       tags:
         - ${DRONE_SEMVER}
         - latest
@@ -26,7 +26,7 @@ steps:
       username: p01
       password:
         from_secret: P01_DOCKER_PASSWORD
-      repo: docker.p01.cc/paperplane-api-base
+      repo: paperplane-api-base
       platform: linux/arm64
       tags:
         - ${DRONE_SEMVER}
