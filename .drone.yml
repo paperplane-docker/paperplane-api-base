@@ -74,8 +74,8 @@ steps:
 trigger:
   event:
     - tag
-  branch:
-    - master
+  ref:
+    - refs/heads/master
 
 volumes:
   - name: dockersock
