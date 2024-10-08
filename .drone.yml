@@ -12,7 +12,9 @@ steps:
       password:
         from_secret: P01_DOCKER_PASSWORD
       repo: docker.p01.cc/paperplane-api-base
+      platform: linux/amd64,linux/arm64
       tags:
+        - ${DRONE_SEMVER}
         - latest
       registry: docker.p01.cc
 
@@ -23,7 +25,9 @@ steps:
       password:
         from_secret: DOCKER_PASSWORD
       repo: paperplanecc/paperplane-api-base
+      platform: linux/amd64,linux/arm64
       tags:
+        - ${DRONE_SEMVER}
         - latest
 
   - name: push-readme-official
