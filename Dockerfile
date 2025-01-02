@@ -11,3 +11,5 @@ RUN apt-get install -y fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fon
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
 
 ENV PUPPETEER_EXECUTABLE_PATH /usr/bin/chromium
+
+RUN npm i -g pnpm
